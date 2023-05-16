@@ -1,6 +1,6 @@
 1st ► VOTE pod ► Observe what happens both in frontEnd & in Unix
 
-after deletion , new vote pod came up 
+after deletion , new vote pod came up due to replica set
 
 [root@ip-172-31-31-224 k8s-specifications]# kubectl get all
 NAME                          READY   STATUS    RESTARTS   AGE
@@ -34,7 +34,7 @@ replicaset.apps/worker-dd46d7584    1         1         1       15m
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 2nd ► WORKER pod  ► Observe what happens both in frontEnd & in Unix
 
-after deletion , worker pod came up nothing happened
+after deletion , worker pod came up due to replica set
 
 [root@ip-172-31-31-224 k8s-specifications]# kubectl get all
 NAME                          READY   STATUS    RESTARTS   AGE
@@ -70,7 +70,10 @@ replicaset.apps/worker-dd46d7584    1         1         1       23m
 3rd ► DB pod ► Observe what happens both in frontEnd & in Unix"
 
 --> After deletion, vote count became zero as old db pod was deleted as result all the vote transction was also deleted.
-and result and worker pod also goes into error state as well when db pod terminates
+    and result and worker pod also goes into error state as well when db pod terminates.
+    
+    new DB pod came up after deletion due to replica set.
+
 
 [root@ip-172-31-20-86 ~]# kubectl get pods
 NAME                      READY   STATUS        RESTARTS   AGE
@@ -112,6 +115,7 @@ complete the assignment by making the result pod work.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 comment on WHY result app STOPPED working after db pod stop
 
---> as the DB connection is lost , result and worker pod went into error state as old DB was terminating and it restarts, once its connected to new DB pod it cames to running state. 
+--> as the DB connection is lost , result and worker pod went into error state as old DB pod was terminating and it restarts, once its connected to new DB pod it cames to running state. 
 
+Observation: we delete DB pod , result and worker pod went into error state as old DB pod was terminating and it restarts. Once the new DB pod is up ,all PODs came back to healthy state.
 
